@@ -5,7 +5,15 @@ import { FileModule } from './file.module';
 import { ChatModule } from './chat.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), AuthModule, FileModule, ChatModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: `.env`,
+    }),
+    AuthModule,
+    FileModule,
+    ChatModule,
+  ],
   controllers: [],
   providers: [],
 })

@@ -75,6 +75,7 @@ src/
 │ │ │ ├── entities/
 │ │ │ ├── repositories/
 │ │ │ └── migrations/
+│ │ │ └── schema.prisma
 │ │ └── redis/
 │ ├── auth/
 │ │ ├── jwt.strategy.ts
@@ -108,3 +109,17 @@ src/
 └── auth.module.ts
 └── app.module.ts
 └── main.ts
+
+## Comandos
+
+# 1. Inicie o container do PostgreSQL (se usar Docker)
+docker-compose up -d
+
+# 2. Rode as migrações
+npx prisma migrate dev --name init
+
+# 3. Gere o cliente Prisma
+npx prisma generate
+
+# Derrubar container do PostgreSQL (se usar Docker)
+docker-compose down
