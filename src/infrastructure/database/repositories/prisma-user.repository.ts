@@ -14,6 +14,7 @@ export class PrismaUserRepository implements UserRepository {
   }
 
   private toDomain(prismaUser: any): User {
+    console.log('prismaUser', prismaUser);
     return User.createFromPersistence({
       id: prismaUser.id,
       name: prismaUser.name,
@@ -38,7 +39,6 @@ export class PrismaUserRepository implements UserRepository {
   async create(
     user: Omit<User, 'id' | 'createdAt' | 'updatedAt'>,
   ): Promise<User> {
-    console.log('create > repository', user);
     const prismaUser = this.toPrisma(user);
     const createdUser = await this.prisma.user.create({ data: prismaUser });
     return this.toDomain(createdUser);

@@ -1,10 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { compare } from 'bcryptjs';
+import { compareSync, compare } from 'bcryptjs';
 import { User } from 'src/domain/entities/user.entity';
 import { JwtPayload } from 'src/domain/interface/jwt-payload.interface';
 import { UserRepository } from 'src/domain/repositories/user.repository.interface';
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -13,50 +12,49 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userRepository.findByEmail(email);
-
-    if (user && (await this.comparePasswords(password, user.password))) {
-      const { password, ...result } = user;
-      return result;
-    }
-    return null;
-  }
-
-  async register(user: User): Promise<{ token: string }> {
+  async register(
+    name: string,
+    email: string,
+    password: string,
+  ): Promise<{ token: string }> {
+    const user = await User.createNew(name, email, password);
+    console.log('Hash gerado no register:', user.password); // Log do hash criado
     if (await this.userRepository.exists(user.email)) {
       throw new Error('Email already in use');
     }
-
     await this.userRepository.create(user);
-
     const payload: JwtPayload = {
       sub: user.id,
       email: user.email,
       name: user.name,
     };
-    console.log(payload);
-    return {
-      token: this.jwtService.sign(payload),
-    };
+    return { token: this.jwtService.sign(payload) };
   }
 
-  login(user: any) {
+  async login(email: string, password: string) {
+    const getEmail = await this.userRepository.findByEmail(email);
+    if (!getEmail) {
+      throw new Error('Email already in use');
+    }
+    const isMatch = await this.comparePasswords(password, getEmail.password);
+    if (!isMatch) {
+      throw new Error('Invalid password');
+    }
     const payload: JwtPayload = {
-      sub: user.id,
-      email: user.email,
-      name: user.name,
+      sub: getEmail.id,
+      email: getEmail.email,
+      name: getEmail.name,
     };
-
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+    return { token: this.jwtService.sign(payload) };
   }
 
   private comparePasswords(
     plainText: string,
     hashedPassword: string,
   ): Promise<boolean> {
+    console.log('plainText: ', plainText);
+    console.log('hashedPassword: ', hashedPassword);
+
     return compare(plainText, hashedPassword);
   }
 }
