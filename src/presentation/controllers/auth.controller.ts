@@ -7,14 +7,19 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import { AuthService } from 'src/application/services/auth.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor() {}
+  constructor(private readonly authService: AuthService) {}
 
-  @Post()
-  create(@Body() createTeaDto: any) {
-    return `User created successfully ${createTeaDto}`;
+  @Post('/create')
+  async create(@Body() user: any) {
+    try {
+      await this.authService.register(user);
+    } catch (error) {
+      return { error: error.message };
+    }
   }
 
   @Get()
