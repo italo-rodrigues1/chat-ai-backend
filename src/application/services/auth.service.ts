@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { compareSync, compare } from 'bcryptjs';
+import { compare } from 'bcryptjs';
 import { User } from 'src/domain/entities/user.entity';
 import { JwtPayload } from 'src/domain/interface/jwt-payload.interface';
 import { UserRepository } from 'src/domain/repositories/user.repository.interface';
@@ -18,7 +18,6 @@ export class AuthService {
     password: string,
   ): Promise<{ token: string }> {
     const user = await User.createNew(name, email, password);
-    console.log('Hash gerado no register:', user.password); // Log do hash criado
     if (await this.userRepository.exists(user.email)) {
       throw new Error('Email already in use');
     }
@@ -52,9 +51,6 @@ export class AuthService {
     plainText: string,
     hashedPassword: string,
   ): Promise<boolean> {
-    console.log('plainText: ', plainText);
-    console.log('hashedPassword: ', hashedPassword);
-
     return compare(plainText, hashedPassword);
   }
 }
