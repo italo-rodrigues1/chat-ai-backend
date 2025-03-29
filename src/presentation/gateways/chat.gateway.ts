@@ -6,7 +6,7 @@ import {
 } from '@nestjs/websockets';
 import { JwtAuthGuard } from 'src/infrastructure/auth/guards/jwt-auth.guard';
 
-@WebSocketGateway({ cors: true })
+@WebSocketGateway({ origin: '*', cors: true, namespace: 'chat' })
 @UseGuards(JwtAuthGuard)
 export class ChatGateway {
   constructor() {}
