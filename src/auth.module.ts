@@ -4,6 +4,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './application/services/auth.service';
 import { JwtStrategy } from './infrastructure/auth/strategies/jwt.strategy';
+// import { GoogleStrategy } from './infrastructure/auth/strategies/google.strategy';
+// import { AppleStrategy } from './infrastructure/auth/strategies/apple.strategy';
 import { PrismaService } from './infrastructure/database/prisma/prisma.service';
 import { PrismaUserRepository } from './infrastructure/database/repositories/prisma-user.repository';
 import { AuthController } from './presentation/controllers/auth.controller';
@@ -26,6 +28,8 @@ import { AuthController } from './presentation/controllers/auth.controller';
   providers: [
     AuthService,
     JwtStrategy,
+    // GoogleStrategy,
+    // AppleStrategy,
     {
       provide: 'UserRepository',
       useClass: PrismaUserRepository,
