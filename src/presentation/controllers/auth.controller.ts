@@ -26,6 +26,7 @@ export class AuthController {
 
   @Post('/create')
   async create(@Body() createUserDto: CreateUserDto) {
+    console.log('Received CreateUserDto:', createUserDto);
     try {
       return await this.authService.register(
         createUserDto.name,
@@ -39,6 +40,7 @@ export class AuthController {
 
   @Post('/find/user')
   async findOne(@Body() findUserDto: FindUserDto) {
+    console.log('Received FindUserDto:', findUserDto);
     try {
       return await this.authService.login(
         findUserDto.email,

@@ -4,6 +4,7 @@ import { AuthModule } from './auth.module';
 import { FileModule } from './file.module';
 import { ChatModule } from './chat.module';
 import { configValidate } from './common/config/configuration';
+import { FlowModule } from './flow.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { configValidate } from './common/config/configuration';
     AuthModule,
     FileModule,
     ChatModule,
+    FlowModule,
   ],
   controllers: [],
   providers: [],

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from '../../../domain/entities/user.entity';
 import { UserRepository } from 'src/domain/repositories/user.repository.interface';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma } from '@prisma/client/edge';
+// import { Prisma } from '@prisma/client/edge';
 
 @Injectable()
 export class PrismaUserRepository implements UserRepository {
@@ -25,7 +25,7 @@ export class PrismaUserRepository implements UserRepository {
     });
   }
 
-  private toPrisma(user: Partial<User>): Prisma.UserCreateInput {
+  private toPrisma(user: Partial<User>) {
     return {
       id: user.id,
       name: user.name as string,

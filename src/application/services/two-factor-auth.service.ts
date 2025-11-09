@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { authenticator } from 'otplib';
 import { toDataURL } from 'qrcode';
-import { User } from '@prisma/client';
+// import { User } from '@prisma/client';
 import { PrismaService } from '../../infrastructure/database/prisma/prisma.service';
 
 @Injectable()
