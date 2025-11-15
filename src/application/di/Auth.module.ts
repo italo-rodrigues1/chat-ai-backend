@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 
 @Module({
+  imports: [],
   controllers: [],
   providers: [],
-  imports: [],
 })
-export class FlowModule {}
+export class AuthModule {}
